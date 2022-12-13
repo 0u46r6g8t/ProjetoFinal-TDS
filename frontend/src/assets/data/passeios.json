@@ -1,0 +1,53 @@
+{
+    "passeios": [
+        {
+            "name": "Parque Nacional do Iguaçu",
+            "distance": "320",
+            "star": 3.7,
+            "url": "https://",
+            "image": ""
+        },
+        {
+            "name": "Parque das Aves",
+            "distance": "221",
+            "star": 4.8,
+            "url": "https://",
+            "image": ""
+        },
+        {
+            "name": "Marco das 3 fronteiras",
+            "distance": "320",
+            "star": 3.7,
+            "url": "https://",
+            "image": ""
+        },
+        {
+            "name": "Marco das 3 fronteiras",
+            "distance": "68",
+            "star": 4.5,
+            "url": "https://",
+            "image": ""
+        },
+        {
+            "name": "Marco das 3 fronteiras",
+            "distance": "68",
+            "star": 4.5,
+            "url": "https://",
+            "image": ""
+        }
+    ],
+    "guias": [
+        {
+            "name": "Ricardo Santos",
+            "passeios": 78,
+            "star":4.9,
+            "url": "https://"
+        },
+        {
+            "name": "Renata Almeida",
+            "passeios": 127,
+            "star":5.0,
+            "url": "https://"
+        }
+    ]
+}
