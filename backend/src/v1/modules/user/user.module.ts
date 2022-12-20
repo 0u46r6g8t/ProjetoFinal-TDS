@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import authConfig from '../../config/auth';
 import { PassportModule } from '@nestjs/passport';
 import Strategies from 'src/v1/modules/user/strategy';
+import { TypesModule } from 'src/v1/modules/types/types.module';
 
 const jwtConfig = JwtModule.register({
   secret: authConfig.jwt.secret,
@@ -16,7 +17,7 @@ const jwtConfig = JwtModule.register({
 });
 
 @Module({
-  imports: [Typeorm, jwtConfig, PassportModule],
+  imports: [Typeorm, jwtConfig, PassportModule, TypesModule],
   controllers: [...Controllers],
   providers: [...Services, HashProvider, ...Strategies],
   exports: [...Services],

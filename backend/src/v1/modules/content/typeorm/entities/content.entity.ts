@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BasicEntity } from 'src/v1/modules/BasicEntity';
 import IContent from 'src/v1/modules/content/dtos/interface/content.interface';
 import { EntityUser } from '../../../user/typeorm/entities/user.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { EntityTypeContent } from 'src/v1/modules/types/typeorm/entities/typeContent.entity';
 
 @Entity('Content')
 export class EntityContent extends BasicEntity implements IContent {
@@ -10,6 +11,7 @@ export class EntityContent extends BasicEntity implements IContent {
     super();
     Object.assign(this, data);
   }
+  type: string;
 
   @Column({
     type: 'varchar',
@@ -55,16 +57,22 @@ export class EntityContent extends BasicEntity implements IContent {
   })
   photoURL: string;
 
-  @Column({
-    type: 'varchar',
-    nullable: false,
-    unique: false,
-  })
   @ApiProperty({
-    description: 'The type of the entity',
-    example: 'Entity type',
+    type: EntityTypeContent,
+    description: 'type Content',
+    example: {
+      name: 'Trilha',
+      id: '2bac045b-7109-473f-af2a-32234b067694',
+      description: 'Lab freshman',
+    } as EntityTypeContent,
   })
-  type: string;
+  @ManyToOne(() => EntityTypeContent, (patent) => patent.contents, {
+    eager: true,
+    nullable: false,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  contentId: EntityTypeContent;
 
   @Column({
     type: 'varchar',
@@ -78,6 +86,7 @@ export class EntityContent extends BasicEntity implements IContent {
   })
   filesURL: string[];
 
-  @ManyToOne(() => EntityUser, (user) => user.content_id)
-  guiaID: EntityUser;
+  @ManyToMany(() => EntityUser)
+  @JoinTable()
+  users_id: EntityUser[];
 }

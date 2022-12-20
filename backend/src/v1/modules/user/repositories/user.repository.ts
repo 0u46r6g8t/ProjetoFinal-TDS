@@ -1,10 +1,10 @@
-import { ICreateUserDTO } from '../dtos/Createduser.DTO';
-import { IUpdateUserDTO } from '../dtos/Updateduser.DTO';
+import { ICreateUserBasicDTO } from '../dtos/Createduser.DTO';
+import { IUpdateUserBasicDTO } from '../dtos/Updateduser.DTO';
 import { EntityUser } from '../typeorm/entities/user.entity';
 
 export default interface IRepositoryUser {
-  createUser(userData: ICreateUserDTO): Promise<EntityUser | undefined>;
-  updateUser(userData: IUpdateUserDTO): Promise<EntityUser | undefined>;
+  createUser(userData: ICreateUserBasicDTO): Promise<EntityUser | undefined>;
+  updateUser(userData: IUpdateUserBasicDTO): Promise<EntityUser | undefined>;
   removeUser(id: string): Promise<any>;
 
   // Find User

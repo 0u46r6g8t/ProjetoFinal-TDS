@@ -1,13 +1,14 @@
+import { Body, Controller, Post } from '@nestjs/common';
 import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import Errors from 'src/v1/utils/Errors';
 import { ILoginDTO } from '../dtos/LoginAuth.DTO';
 import { IResponseLoginDTO } from '../dtos/ResponseLogin.DTO';
 import { ServiceAuth } from '../service/auth.service';
@@ -21,6 +22,9 @@ export class ControllerAuth {
   @ApiBody({
     type: ILoginDTO,
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @ApiOkResponse({
     description: 'successfully logged in',
     type: IResponseLoginDTO,

@@ -7,12 +7,12 @@ import {
   IsEmail,
   IsDefined,
   IsNumber,
+  IsUUID,
 } from 'class-validator';
 import { EntityContent } from 'src/v1/modules/content/typeorm/entities/content.entity';
+import { EntityTypeUser } from 'src/v1/modules/types/typeorm/entities/typeUser.entity';
 
 export class IUpdateUserDTO implements IUser {
-  content_id: EntityContent;
-
   @IsString()
   @IsDefined()
   @IsNotEmpty()
@@ -40,15 +40,6 @@ export class IUpdateUserDTO implements IUser {
     description: 'Password of user',
   })
   password: string;
-
-  @IsString()
-  @IsDefined()
-  @IsNotEmpty()
-  @ApiProperty({
-    example: 'Turista',
-    description: 'Type of user',
-  })
-  typeUser: string;
 
   @IsString()
   @IsDefined()
@@ -86,7 +77,7 @@ export class IUpdateUserDTO implements IUser {
   })
   age: number;
 
-  @IsDate()
+  @IsString()
   @IsDefined()
   @IsNotEmpty()
   @ApiProperty({
@@ -94,4 +85,25 @@ export class IUpdateUserDTO implements IUser {
     description: 'Birth date of user',
   })
   birthdate: string;
+
+  @IsNotEmpty()
+  @IsDefined()
+  @IsUUID()
+  @ApiProperty({
+    description: "User's patent",
+    example: '2bac045b-7109-473f-af2a-32234b067694',
+  })
+  userId: string;
+}
+export class IUpdateUserBasicDTO implements IUser {
+  content_id: EntityContent;
+  name: string;
+  email: string;
+  password: string;
+  phone: number;
+  numberDoc: number;
+  photoURL: string;
+  age: number;
+  birthdate: string;
+  userId: EntityTypeUser;
 }

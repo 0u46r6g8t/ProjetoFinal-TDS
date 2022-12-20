@@ -11,13 +11,19 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiConflictResponse,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { IUpdateContentDTO } from 'src/v1/modules/content/dtos/Updatedcontent.DTO';
 import { JwtAuthGuard } from 'src/v1/modules/user/guards/jwt.guard';
+import Errors from 'src/v1/utils/Errors';
 import { ICreateContentDTO } from '../dtos/Createdcontent.DTO';
 import { ServiceContent } from '../services/content.service';
 import { EntityContent } from '../typeorm/entities/content.entity';
@@ -33,6 +39,11 @@ export class ControllerContentCRUD {
     description: 'Create with success',
     type: EntityContent,
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @UsePipes(new ValidationPipe())
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
@@ -46,6 +57,11 @@ export class ControllerContentCRUD {
     description: 'Update with success',
     type: EntityContent,
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
@@ -61,6 +77,11 @@ export class ControllerContentCRUD {
     description: 'Delete with success',
     type: 'ID',
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())

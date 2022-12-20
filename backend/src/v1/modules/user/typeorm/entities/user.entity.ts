@@ -1,8 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { EntityTypeUser } from 'src/v1/modules/types/typeorm/entities/typeUser.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { BasicEntity } from '../../../BasicEntity';
 import { IUser } from '../../dtos/interface/user.interface';
-import { Entity, Column, OneToMany, JoinTable } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { EntityContent } from 'src/v1/modules/content/typeorm/entities/content.entity';
 
 @Entity('User')
 export class EntityUser extends BasicEntity implements IUser {
@@ -45,16 +45,6 @@ export class EntityUser extends BasicEntity implements IUser {
   password: string;
 
   @ApiProperty({
-    example: 'Turista',
-    description: 'Type of user',
-  })
-  @Column({
-    type: 'varchar',
-    unique: false,
-  })
-  typeUser: string;
-
-  @ApiProperty({
     example: '54392139219321',
     description: 'Phone number of user',
   })
@@ -78,7 +68,7 @@ export class EntityUser extends BasicEntity implements IUser {
 
   @Column({
     type: 'varchar',
-    unique: true,
+    unique: false,
     nullable: true,
   })
   @ApiProperty({
@@ -109,9 +99,20 @@ export class EntityUser extends BasicEntity implements IUser {
   })
   birthdate: string;
 
-  @OneToMany(() => EntityContent, (content) => content.guiaID)
-  @JoinTable({
-    name: 'tb_user_content',
+  @ApiProperty({
+    type: EntityTypeUser,
+    description: "Member's patent",
+    example: {
+      name: 'Notavo',
+      id: '2bac045b-7109-473f-af2a-32234b067694',
+      description: 'Lab freshman',
+    } as EntityTypeUser,
   })
-  content_id: EntityContent;
+  @ManyToOne(() => EntityTypeUser, (patent) => patent.users, {
+    eager: true,
+    nullable: false,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  userId: EntityTypeUser;
 }

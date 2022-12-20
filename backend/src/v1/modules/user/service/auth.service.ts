@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ILoginDTO } from 'src/v1/modules/user/dtos/LoginAuth.DTO';
+import { IResponseLoginDTO } from 'src/v1/modules/user/dtos/ResponseLogin.DTO';
+import IRepositoryRefreshToken from 'src/v1/modules/user/repositories/refreshToken.repository';
 import IRepositoryUser from 'src/v1/modules/user/repositories/user.repository';
+import { EntityRefreshToken } from 'src/v1/modules/user/typeorm/entities/refreshToken.entity';
+import { EntityUser } from 'src/v1/modules/user/typeorm/entities/user.entity';
+import { RepositoryRefreshToken } from 'src/v1/modules/user/typeorm/repositories/refreshToken.repository';
 import { RepositoryUser } from 'src/v1/modules/user/typeorm/repositories/user.repository';
 import IHashProvider from 'src/v1/provider/HashProvider/inteface';
-import { JwtService } from '@nestjs/jwt';
-import { ILoginDTO } from 'src/v1/modules/user/dtos/LoginAuth.DTO';
-import { EntityUser } from 'src/v1/modules/user/typeorm/entities/user.entity';
-import { IResponseLoginDTO } from 'src/v1/modules/user/dtos/ResponseLogin.DTO';
-import { RepositoryRefreshToken } from 'src/v1/modules/user/typeorm/repositories/refreshToken.repository';
-import IRepositoryRefreshToken from 'src/v1/modules/user/repositories/refreshToken.repository';
-import { EntityRefreshToken } from 'src/v1/modules/user/typeorm/entities/refreshToken.entity';
 
 @Injectable()
 export class ServiceAuth {
@@ -48,10 +48,14 @@ export class ServiceAuth {
 
   async login(userFind: any): Promise<IResponseLoginDTO> {
     const user = await this.userRepository.findByEmail(userFind.email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     const payload = {
       sub: user.id,
       login: user.email,
-      type: user.typeUser,
+      type: user.userId.name,
     };
     const hash = this.jwtService.sign(payload);
     if (!user) {

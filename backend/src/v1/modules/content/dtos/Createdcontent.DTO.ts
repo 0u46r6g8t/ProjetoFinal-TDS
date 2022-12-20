@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 import IContent from 'src/v1/modules/content/dtos/interface/content.interface';
+import { EntityTypeContent } from 'src/v1/modules/types/typeorm/entities/typeContent.entity';
 import { EntityUser } from 'src/v1/modules/user/typeorm/entities/user.entity';
 
 export class ICreateContentDTO implements IContent {
@@ -57,7 +58,16 @@ export class ICreateContentDTO implements IContent {
     example: 'type of content',
     description: 'The type of the content to create.',
   })
-  type: string;
+  contentId: string;
+
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'users of content',
+    description: 'The users of the content to create.',
+  })
+  users_id: string;
 
   @IsArray()
   @IsDefined()
@@ -66,5 +76,16 @@ export class ICreateContentDTO implements IContent {
     example: 'type of content',
     description: 'The type of the content to create.',
   })
+  filesURL: string[];
+}
+
+export class ICreateContentBasicDTO implements IContent {
+  guiaID: EntityUser;
+  name: string;
+  description: string;
+  distance: string;
+  photoURL: string;
+  contentId: EntityTypeContent;
+  users_id: EntityUser[];
   filesURL: string[];
 }

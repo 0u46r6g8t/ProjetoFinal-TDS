@@ -1,7 +1,7 @@
-import { EntityRepository, Repository, getRepository } from 'typeorm';
-import { ICreateContentDTO } from '../../dtos/Createdcontent.DTO';
-import { IUpdateContentDTO } from '../../dtos/Updatedcontent.DTO';
 import { EntityContent } from 'src/v1/modules/content/typeorm/entities/content.entity';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { ICreateContentBasicDTO } from '../../dtos/Createdcontent.DTO';
+import { IUpdateContentBasicDTO } from '../../dtos/Updatedcontent.DTO';
 import IRepositoryContent from '../../repositories/content.repository';
 
 @EntityRepository(EntityContent)
@@ -16,13 +16,17 @@ export class RepositoryContent
     this.ormRepository = getRepository(EntityContent);
   }
 
-  public async createContent(data: ICreateContentDTO): Promise<EntityContent> {
+  public async createContent(
+    data: ICreateContentBasicDTO,
+  ): Promise<EntityContent> {
     const content = this.ormRepository.create(data);
 
     return this.ormRepository.save(content);
   }
 
-  public async updateContent(data: IUpdateContentDTO): Promise<EntityContent> {
+  public async updateContent(
+    data: IUpdateContentBasicDTO,
+  ): Promise<EntityContent> {
     await this.ormRepository.save(data);
 
     return this.findByName(data.name);

@@ -1,18 +1,26 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { RepositoryUser } from '../typeorm/repositories/user.repository';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ICreateUserDTO } from '../dtos/Createduser.DTO';
-import { EntityUser } from '../typeorm/entities/user.entity';
-import IRepositoryUser from '../repositories/user.repository';
+import { ServiceTypeUser } from 'src/v1/modules/types/services/typeUser.service';
 import { IUpdateUserDTO } from 'src/v1/modules/user/dtos/Updateduser.DTO';
-import * as userService from './User';
 import IHashProvider from 'src/v1/provider/HashProvider/inteface';
+import { ICreateUserDTO } from '../dtos/Createduser.DTO';
+import IRepositoryUser from '../repositories/user.repository';
+import { EntityUser } from '../typeorm/entities/user.entity';
+import { RepositoryUser } from '../typeorm/repositories/user.repository';
+import * as userService from './User';
 
 @Injectable()
 export class ServiceUser {
   constructor(
     @InjectRepository(RepositoryUser)
     private readonly repositoryUser: IRepositoryUser,
+
+    private readonly serviceTypeUser: ServiceTypeUser,
 
     @Inject('HashProvider')
     private readonly hashProvider: IHashProvider,
@@ -23,20 +31,22 @@ export class ServiceUser {
       newUser: data,
       repository: this.repositoryUser,
       hashProvider: this.hashProvider,
+      typeUser: this.serviceTypeUser,
     });
   }
 
   async update(data: IUpdateUserDTO): Promise<EntityUser> {
     const user = await this.repositoryUser.findByEmail(data.email);
-
     if (!user) {
       throw new BadRequestException('Usuário não encontrado');
     }
 
     return userService.update({
+      hashProvider: this.hashProvider,
       newUser: data,
       repository: this.repositoryUser,
       userUpdate: user,
+      typeUser: this.serviceTypeUser,
     });
   }
 
@@ -52,14 +62,29 @@ export class ServiceUser {
   }
 
   async findById(id: string): Promise<EntityUser> {
+    const valida = await this.repositoryUser.findById(id);
+
+    if (!valida) {
+      throw new NotFoundException('Type Content not found');
+    }
     return this.repositoryUser.findById(id);
   }
 
   async findByName(username: string): Promise<EntityUser | undefined> {
+    const valida = await this.repositoryUser.findByName(username);
+
+    if (!valida) {
+      throw new NotFoundException('User not found');
+    }
     return this.repositoryUser.findByName(username);
   }
 
   async findByEmail(email: string): Promise<EntityUser | undefined> {
+    const valida = await this.repositoryUser.findByEmail(email);
+
+    if (!valida) {
+      throw new NotFoundException('User not found');
+    }
     return this.repositoryUser.findByName(email);
   }
 }

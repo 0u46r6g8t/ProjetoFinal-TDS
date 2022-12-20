@@ -1,8 +1,8 @@
-import { EntityRepository, Repository, getRepository } from 'typeorm';
-import { EntityUser } from '../entities/user.entity';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { ICreateUserBasicDTO } from '../../dtos/Createduser.DTO';
+import { IUpdateUserBasicDTO } from '../../dtos/Updateduser.DTO';
 import IRepositoryUser from '../../repositories/user.repository';
-import { ICreateUserDTO } from '../../dtos/Createduser.DTO';
-import { IUpdateUserDTO } from '../../dtos/Updateduser.DTO';
+import { EntityUser } from '../entities/user.entity';
 
 @EntityRepository(EntityUser)
 export class RepositoryUser
@@ -16,13 +16,13 @@ export class RepositoryUser
     this.ormRepository = getRepository(EntityUser);
   }
 
-  public async createUser(userData: ICreateUserDTO): Promise<EntityUser> {
+  public async createUser(userData: ICreateUserBasicDTO): Promise<EntityUser> {
     const user = this.ormRepository.create(userData);
 
     return this.ormRepository.save(user);
   }
 
-  public async updateUser(userData: IUpdateUserDTO): Promise<EntityUser> {
+  public async updateUser(userData: IUpdateUserBasicDTO): Promise<EntityUser> {
     await this.ormRepository.save(userData);
     return this.findByEmail(userData.email);
   }
@@ -32,7 +32,6 @@ export class RepositoryUser
   }
   public async findAllUsers(): Promise<EntityUser[]> {
     const user = await this.ormRepository.find();
-    console.log(user);
     return user;
   }
 
@@ -45,7 +44,7 @@ export class RepositoryUser
   }
 
   public async findByEmail(email: string): Promise<EntityUser> {
-    return this.ormRepository.findOne(email);
+    return this.ormRepository.findOne({ where: { email } });
   }
 
   public async findByPhone(phone: number): Promise<EntityUser> {

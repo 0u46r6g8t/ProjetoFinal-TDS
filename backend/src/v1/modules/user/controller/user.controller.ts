@@ -11,17 +11,22 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiConflictResponse,
   ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { IUpdateUserDTO } from 'src/v1/modules/user/dtos/Updateduser.DTO';
 import { JwtAuthGuard } from 'src/v1/modules/user/guards/jwt.guard';
+import Errors from 'src/v1/utils/Errors';
 import { ICreateUserDTO } from '../dtos/Createduser.DTO';
 import { ServiceUser } from '../service/user.service';
 import { EntityUser } from '../typeorm/entities/user.entity';
-
 @ApiTags('User')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller(`v1/users`)
@@ -33,9 +38,14 @@ export class ControllerUserCRUD {
     description: 'Create with success',
     type: EntityUser,
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @UsePipes(new ValidationPipe())
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
   @Post()
   async createUser(@Body() data: ICreateUserDTO): Promise<EntityUser> {
     return this.serviceUser.create(data);
@@ -47,6 +57,11 @@ export class ControllerUserCRUD {
     type: EntityUser,
   })
   @ApiBearerAuth()
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @Put('/')
@@ -61,6 +76,11 @@ export class ControllerUserCRUD {
     description: 'Delete with success',
     type: 'ID',
   })
+  @ApiBadRequestResponse(Errors.BadRequest)
+  @ApiNotFoundResponse(Errors.NotFound)
+  @ApiConflictResponse(Errors.Conflict)
+  @ApiForbiddenResponse(Errors.Forbidden)
+  @ApiUnauthorizedResponse(Errors.Unauthorized)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())

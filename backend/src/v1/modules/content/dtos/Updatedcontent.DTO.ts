@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsDefined, IsNotEmpty, IsString } from 'class-validator';
 import IContent from 'src/v1/modules/content/dtos/interface/content.interface';
+import { EntityTypeContent } from 'src/v1/modules/types/typeorm/entities/typeContent.entity';
 import { EntityUser } from 'src/v1/modules/user/typeorm/entities/user.entity';
 
 export class IUpdateContentDTO implements IContent {
@@ -47,7 +48,7 @@ export class IUpdateContentDTO implements IContent {
     example: 'type of content',
     description: 'The type of the content to create.',
   })
-  type: string;
+  contentId: string;
 
   @IsArray()
   @IsDefined()
@@ -57,5 +58,23 @@ export class IUpdateContentDTO implements IContent {
     description: 'The type of the content to create.',
   })
   filesURL: string[];
-  guiaID: EntityUser;
+
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'users of content',
+    description: 'The users of the content to create.',
+  })
+  users_id: string;
+}
+
+export class IUpdateContentBasicDTO implements IContent {
+  name: string;
+  description: string;
+  distance: string;
+  photoURL: string;
+  contentId: EntityTypeContent;
+  users_id: EntityUser[];
+  filesURL: string[];
 }
