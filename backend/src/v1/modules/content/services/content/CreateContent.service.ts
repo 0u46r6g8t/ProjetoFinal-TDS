@@ -29,9 +29,7 @@ const create = async ({
       `Content ${newContent.name} already registered`,
     ]);
   }
-
   const type = await typeContent.findById(newContent.contentId);
-
   if (!type) {
     throw new NotFoundException(`Content ${newContent.name} not found`);
   }

@@ -54,17 +54,12 @@ export class ServiceTypeUser {
   async findById(id: string): Promise<EntityTypeUser> {
     const valid = await this.repositoryTypeUser.findById(id);
 
-    if (!valid) {
-      throw new NotFoundException(`Type user not found `);
-    }
-    return this.repositoryTypeUser.findById(id);
+    return valid;
   }
 
   async findByName(name: string): Promise<EntityTypeUser | undefined> {
     const valid = await this.repositoryTypeUser.findById(name);
-    if (!valid) {
-      throw new NotFoundException(`Type user not found `);
-    }
-    return this.repositoryTypeUser.findByName(name);
+
+    return valid;
   }
 }

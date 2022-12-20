@@ -44,8 +44,8 @@ export class ControllerUserCRUD {
   @ApiForbiddenResponse(Errors.Forbidden)
   @ApiUnauthorizedResponse(Errors.Unauthorized)
   @UsePipes(new ValidationPipe())
-  // @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Post()
   async createUser(@Body() data: ICreateUserDTO): Promise<EntityUser> {
     return this.serviceUser.create(data);
@@ -64,7 +64,7 @@ export class ControllerUserCRUD {
   @ApiUnauthorizedResponse(Errors.Unauthorized)
   @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
-  @Put('/')
+  @Put('')
   async updateUser(
     @Body() data: IUpdateUserDTO,
   ): Promise<EntityUser | undefined> {

@@ -32,7 +32,7 @@ export const FormLogin = ({ className }: IProps) => {
           <label htmlFor="check-remeber">Lembrar de mim</label>
         </span>
       </form>
-      <SendButton value="Entrar" className="button-send" link="/" />
+      <SendButton value="Entrar" className="button-send" link="/home" />
       <AlternativeLogin />
     </FormStyled>
   );

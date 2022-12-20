@@ -87,6 +87,6 @@ export class ControllerContentCRUD {
   @UsePipes(new ValidationPipe())
   @Delete('/delete')
   async deleteContent(@Body() id: string): Promise<void> {
-    await this.serviceContent.remove(id);
+    await this.serviceContent.remove(id['id']);
   }
 }

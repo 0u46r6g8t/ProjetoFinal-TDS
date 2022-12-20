@@ -43,11 +43,10 @@ export class ServiceContent {
     const Content = await this.repositoryContent.findByName(data.name);
 
     if (!Content) {
-      throw new BadRequestException('Usuário não encontrado');
+      throw new BadRequestException('Content não encontrado');
     }
 
     const type = await this.serviceTypeContent.findById(data.contentId);
-
     if (!type) {
       throw new NotFoundException(`Type not found`);
     }
@@ -67,7 +66,7 @@ export class ServiceContent {
 
   async remove(id: string): Promise<void> {
     const valida = await this.repositoryContent.findById(id);
-
+    console.log(valida);
     if (!valida) {
       throw new NotFoundException('Content not found');
     }

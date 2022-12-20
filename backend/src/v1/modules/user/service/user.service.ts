@@ -37,6 +37,7 @@ export class ServiceUser {
 
   async update(data: IUpdateUserDTO): Promise<EntityUser> {
     const user = await this.repositoryUser.findByEmail(data.email);
+    console.log(user);
     if (!user) {
       throw new BadRequestException('Usuário não encontrado');
     }
@@ -64,27 +65,17 @@ export class ServiceUser {
   async findById(id: string): Promise<EntityUser> {
     const valida = await this.repositoryUser.findById(id);
 
-    if (!valida) {
-      throw new NotFoundException('Type Content not found');
-    }
-    return this.repositoryUser.findById(id);
+    return valida;
   }
 
   async findByName(username: string): Promise<EntityUser | undefined> {
     const valida = await this.repositoryUser.findByName(username);
-
-    if (!valida) {
-      throw new NotFoundException('User not found');
-    }
-    return this.repositoryUser.findByName(username);
+    return valida;
   }
 
   async findByEmail(email: string): Promise<EntityUser | undefined> {
     const valida = await this.repositoryUser.findByEmail(email);
 
-    if (!valida) {
-      throw new NotFoundException('User not found');
-    }
-    return this.repositoryUser.findByName(email);
+    return valida;
   }
 }

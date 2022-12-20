@@ -54,20 +54,12 @@ export class ServiceTypeContent {
 
   async findById(id: string): Promise<EntityTypeContent> {
     const valida = await this.repositoryContent.findById(id);
-
-    if (!valida) {
-      throw new NotFoundException('Type Content not found');
-    }
-
-    return this.repositoryContent.findById(id);
+    return valida;
   }
 
   async findByName(name: string): Promise<EntityTypeContent | undefined> {
     const valida = await this.repositoryContent.findById(name);
 
-    if (!valida) {
-      throw new NotFoundException('Type Content not found');
-    }
     return this.repositoryContent.findByName(name);
   }
 }

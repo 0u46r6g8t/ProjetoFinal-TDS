@@ -9,10 +9,10 @@ import { HomeScreen } from "../pages/Home";
 const Routers = () => {
   return (
     <Routes>
-      <Route path="/login" element={<PageLogin />} />
+      <Route path="/" element={<PageLogin />} />
       <Route path="/register" element={<PageRegister />} />
       <Route path="/registerType" element={<PageRegisterType />} />
-      <Route path="/" element={<HomeScreen />} />
+      <Route path="/home" element={<HomeScreen />} />
       <Route path="/registerContent" element={<RegisterContent />} />
     </Routes>
   );
