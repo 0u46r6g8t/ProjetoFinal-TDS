@@ -91,13 +91,16 @@ As seguintes ferramentas foram usadas na construção do projeto:
 $ git clone <git@github.com:quieregatog/ProjetoFinal-TDS.git>
 
 # Em um terminal acesse o frontend
-$ cd frontend
+$ cd ${pwd}/frontend
 
 # Instale as dependências
 $ yarn
 
 # Execute a aplicação
 $ yarn start
+
+# Em um terminal acesse o backend
+$ cd ${pwd}/backend
 
 # Logo em seguida instale as dependências
 $ yarn
