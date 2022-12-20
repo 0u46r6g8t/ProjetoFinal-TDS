@@ -42,10 +42,6 @@ export class ControllerUserCRUD {
   @ApiNotFoundResponse(Errors.NotFound)
   @ApiConflictResponse(Errors.Conflict)
   @ApiForbiddenResponse(Errors.Forbidden)
-  @ApiUnauthorizedResponse(Errors.Unauthorized)
-  @UsePipes(new ValidationPipe())
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Post()
   async createUser(@Body() data: ICreateUserDTO): Promise<EntityUser> {
     return this.serviceUser.create(data);
