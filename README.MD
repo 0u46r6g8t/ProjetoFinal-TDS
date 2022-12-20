@@ -29,7 +29,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Docket](https://docker.com/)
 - [TypeORM](https://typeorm.io/)
 
-### <b>Estrutura de pastas</b>
+### <b>Estrutura de pasta backend</b>
 
 ```
 ├──src/
